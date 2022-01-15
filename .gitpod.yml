@@ -1,1 +1,11 @@
 image: tmy2017/gitpod-pstorm-with-php71-mysql8:ver-1641418346
+tasks:
+  # custom image is php71, switch to 8.0
+  #   Ref: https://github.dev/tmy2017/php-ddd-example/blob/d837a2fe96e305ce4057e97926fb64f5fa99d724/.gitpod.gitpod-php71-mysql8.Dockerfile#L20
+  # also switch composer to v2 instead of v1 (was for php71)
+  - before: |
+      sudo update-alternatives --set php /usr/bin/php8.0
+      php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+      sudo php composer-setup.php --install-dir /usr/bin --filename composer
+      php -r "unlink('composer-setup.php');"    
